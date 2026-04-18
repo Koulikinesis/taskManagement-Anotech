@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "dev": "concurrently \"next dev\" \"ts-node-dev --respawn --transpile-only --project server/tsconfig.json server/src/index.ts\"",
-    "build": "next build && tsc -p server/tsconfig.json",
-    "start": "NODE_ENV=production node server/dist/index.js",
+    "dev": "next dev --webpack",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -23,11 +23,11 @@
     "framer-motion": "^12.38.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^1.8.0",
-    "mongoose": "^7.6.0",
-    "next": "^14.2.35",
-    "react": "^18.3.1",
+    "mongoose": "^7.8.9",
+    "next": "^16.2.4",
+    "react": "^19.2.5",
     "react-beautiful-dnd": "^13.1.1",
-    "react-dom": "^18.3.1",
+    "react-dom": "^19.2.5",
     "recharts": "^3.8.1",
     "socket.io-client": "^4.8.3"
   },
