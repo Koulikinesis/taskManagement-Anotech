@@ -6,7 +6,7 @@ export interface TaskDocument {
   status: 'todo' | 'in-progress' | 'done';
   dueDate: string;
   assigneeEmail?: string;
-  createdBy: Types.ObjectId;
+  createdBy?: Types.ObjectId;
 }
 
 const taskSchema = new Schema<TaskDocument>({
@@ -15,7 +15,7 @@ const taskSchema = new Schema<TaskDocument>({
   status: { type: String, required: true, enum: ['todo', 'in-progress', 'done'], default: 'todo' },
   dueDate: { type: String, required: true },
   assigneeEmail: { type: String, trim: true, lowercase: true },
-  createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: false },
 }, { timestamps: true });
 
 export const Task = models.Task || model<TaskDocument>('Task', taskSchema);

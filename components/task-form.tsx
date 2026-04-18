@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { apiBaseUrl, TaskPayload } from '../lib/api';
+import { Plus, Calendar, User, FileText, Tag } from 'lucide-react';
 
 export default function TaskForm({ onCreate }: { onCreate: () => Promise<void> }) {
   const [title, setTitle] = useState('');
@@ -20,7 +21,7 @@ export default function TaskForm({ onCreate }: { onCreate: () => Promise<void> }
     try {
       const response = await fetch(`${apiBaseUrl}/tasks`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('task-manager-token')}` },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, description, dueDate, status, assigneeEmail: assigneeEmail || undefined }),
       });
 
@@ -40,47 +41,66 @@ export default function TaskForm({ onCreate }: { onCreate: () => Promise<void> }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold text-slate-900">New task</h2>
-        <p className="mt-2 text-sm text-slate-600">Capture the work that should move your team forward.</p>
+    <form onSubmit={handleSubmit} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8">
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r from-cyan-600 to-blue-700">
+            <Plus className="h-6 w-6 text-white" />
+          </div>
+          <h2 className="text-2xl font-bold text-slate-900">Create New Task</h2>
+        </div>
+        <p className="text-slate-600">Add clear scope, ownership, and status in one pass.</p>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-slate-700">Title</label>
+          <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
+            <FileText className="h-4 w-4" />
+            Task Title
+          </label>
           <input
             required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="mt-2 w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            className="block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm placeholder-slate-400 transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+            placeholder="Enter task title"
           />
         </div>
         <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-slate-700">Description</label>
+          <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
+            <Tag className="h-4 w-4" />
+            Description
+          </label>
           <textarea
             required
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="mt-2 w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            className="block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm placeholder-slate-400 transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
             rows={4}
+            placeholder="Describe the task in detail"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Due date</label>
+          <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
+            <Calendar className="h-4 w-4" />
+            Due Date
+          </label>
           <input
             type="date"
             required
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
-            className="mt-2 w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            className="block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Status</label>
+          <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
+            <Tag className="h-4 w-4" />
+            Status
+          </label>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as TaskPayload['status'])}
-            className="mt-2 w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            className="block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
           >
             <option value="todo">To Do</option>
             <option value="in-progress">In Progress</option>
@@ -88,23 +108,30 @@ export default function TaskForm({ onCreate }: { onCreate: () => Promise<void> }
           </select>
         </div>
         <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-slate-700">Assign to (email)</label>
+          <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
+            <User className="h-4 w-4" />
+            Assign to (Email)
+          </label>
           <input
             type="email"
             value={assigneeEmail}
             onChange={(e) => setAssigneeEmail(e.target.value)}
-            className="mt-2 w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-            placeholder="Optional"
+            className="block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm placeholder-slate-400 transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+            placeholder="Optional: Enter team member's email"
           />
         </div>
       </div>
-      {error ? <p className="mt-4 text-sm text-rose-600">{error}</p> : null}
+      {error && (
+        <div className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4">
+          <p className="text-sm font-medium text-red-700">{error}</p>
+        </div>
+      )}
       <button
         type="submit"
         disabled={loading}
-        className="mt-6 w-full rounded-full bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-8 w-full rounded-xl bg-gradient-to-r from-cyan-600 to-blue-700 px-6 py-4 text-sm font-semibold text-white shadow-lg transition hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {loading ? 'Saving task...' : 'Create task'}
+        {loading ? 'Creating Task...' : 'Create Task'}
       </button>
     </form>
   );

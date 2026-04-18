@@ -3,14 +3,16 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Anotech Task Manager',
-  description: 'Team task manager built with Next.js and Express',
+  description: 'Enterprise-grade task management platform for teams',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        <div className="min-h-screen bg-slate-50 text-slate-900">{children}</div>
+      <body className="antialiased">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 text-slate-900">
+          {children}
+        </div>
       </body>
     </html>
   );
